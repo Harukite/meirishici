@@ -4,16 +4,11 @@
     <!-- <button open-type="contact" >联系</button> -->
   </view>
 </template>
-
 <script>
-// import { formatTime } from '@/utils/index'
-// import card from '@/components/card'
-
 export default {
   components: {
     // card
   },
-
   data () {
     return {
       logs: []
