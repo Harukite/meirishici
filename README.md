@@ -1,7 +1,9 @@
 # daily
 
 > A Mpvue project
-
+#### 效果图
+![效果图1](https://github.com/Halokitiboy/meirishici/blob/master/2301552444540_.pic.jpg)
+![效果图2](https://github.com/Halokitiboy/meirishici/blob/master/2311552444541_.pic.jpg)
 ## Build Setup
 
 ``` bash
