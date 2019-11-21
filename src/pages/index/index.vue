@@ -1,5 +1,7 @@
 <template>
   <div class='container'>
+     <collect @click="collectHandle"/>
+    <van-notify id="van-notify"/>
    <div  v-show="hasData">
       <div class="desc">
       {{desc}}
@@ -35,11 +37,14 @@
     <div  v-show="!hasData">
       <card text="出了点小状况，请稍后再试！"/>
     </div>
+   
   </div>
 </template>
 <script>
 import card from '@/components/card'
+import collect from '@/components/collect'
 import jinrishici from '@/utils/jinrishici'
+import Notify from '../../../static/vant/notify/notify';
 export default {
   data () {
     return {
@@ -58,7 +63,8 @@ export default {
   },
 
   components: {
-    card
+    card,
+    collect
   },
 
   methods: {
@@ -73,6 +79,7 @@ export default {
      */
     async loadSentence() {
        let vm = this
+       return
        mpvue.showLoading({
             title: '加载中',
           })
@@ -97,6 +104,7 @@ export default {
         })
     },
      readOrgin(){
+        Notify({ type: 'primary', message: '收藏成功',background:"#1aaf5d"});
        this.showOrigin = !this.showOrigin
        this.originBtn = this.showOrigin ? '收起出处':'查看出处'
      },
@@ -108,6 +116,9 @@ export default {
        this.translate = translate
        this.title = title
      },
+     collectHandle(){
+      Notify({ type: 'primary', message: '收藏成功' });
+     }
   },
   created () {
     let app = getApp()
@@ -202,4 +213,5 @@ export default {
 ul{
   margin: 0 10px;
 }
+
 </style>

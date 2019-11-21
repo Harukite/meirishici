@@ -1,3 +1,8 @@
+<!--
+ * @Date: 2019-11-20 11:57:08
+ * @Author: xiazhengchun
+ * @LastEditTime: 2019-11-21 17:38:28
+ -->
 <script>
 export default {
   created () {
@@ -31,9 +36,10 @@ export default {
 </script>
 
 <style>
+@import url('./app.css');
 .container {
   height: 100%;
-  display: flex;
+  /* display: flex; */
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
