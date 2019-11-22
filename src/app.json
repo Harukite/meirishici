@@ -10,6 +10,7 @@
     "navigationBarTitleText": "每日诗词",
     "navigationBarTextStyle": "black"
   },
+  "cloud":true,
   "usingComponents": {
     "van-button": "/static/vant/button/index",
     "van-collapse": "/static/vant/collapse/index",
@@ -22,7 +23,8 @@
     "van-cell": "/static/vant/cell/index",
     "van-cell-group": "/static/vant/cell-group/index",
     "van-grid": "/static/vant/grid/index",
-    "van-grid-item": "/static/vant/grid-item/index"
+    "van-grid-item": "/static/vant/grid-item/index",
+    "canvas-drawer": "/static/canvasdrawer/canvasdrawer"
   },
   "tabBar": {
     "color": "#999",

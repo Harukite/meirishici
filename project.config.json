@@ -1,7 +1,7 @@
 {
 	"description": "项目配置文件。",
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": true,
 		"postcss": true,
 		"minified": true,
@@ -20,6 +20,8 @@
 	"miniprogramRoot": "dist/wx/",
 	"compileType": "miniprogram",
 	"appid": "wx94ba012bbcebe0bc",
+	"cloudfunctionRoot": "cloudFunctions/",
+	"cloudfunctionTemplateRoot": "cloudfunctionTemplate",
 	"projectname": "daily",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},

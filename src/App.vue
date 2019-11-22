@@ -1,7 +1,7 @@
 <!--
  * @Date: 2019-11-20 11:57:08
  * @Author: xiazhengchun
- * @LastEditTime: 2019-11-21 17:38:28
+ * @LastEditTime: 2019-11-22 14:18:46
  -->
 <script>
 export default {
@@ -16,13 +16,15 @@ export default {
      */
 
     // let logs
-    // if (mpvuePlatform === 'my') {
-    //   logs = mpvue.getStorageSync({key: 'logs'}).data || []
-    //   logs.unshift(Date.now())
-    //   mpvue.setStorageSync({
-    //     key: 'logs',
-    //     data: logs
-    //   })
+    if (mpvuePlatform === 'wx') {
+      // logs = mpvue.getStorageSync({key: 'logs'}).data || []
+      // logs.unshift(Date.now())
+      // mpvue.setStorageSync({
+      //   key: 'logs',
+      //   data: logs
+      // })
+      wx.cloud.init()
+      }
     // } else {
     //   logs = mpvue.getStorageSync('logs') || []
     //   logs.unshift(Date.now())

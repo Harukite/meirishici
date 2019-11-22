@@ -7224,11 +7224,6 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
 
-vant-weapp@^0.5.23:
-  version "0.5.23"
-  resolved "http://r.cnpmjs.org/vant-weapp/download/vant-weapp-0.5.23.tgz#e3dcf162e15f74e6637a9b6f88e324acf10b5155"
-  integrity sha1-49zxYuFfdOZjeptviOMkrPELUVU=
-
 vary@~1.1.2:
   version "1.1.2"
   resolved "http://r.cnpmjs.org/vary/download/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
@@ -7476,6 +7471,11 @@ ws@^4.0.0:
   dependencies:
     async-limiter "~1.0.0"
     safe-buffer "~5.1.0"
+
+wxa-plugin-canvas@^1.1.11:
+  version "1.1.11"
+  resolved "http://r.cnpmjs.org/wxa-plugin-canvas/download/wxa-plugin-canvas-1.1.11.tgz#ec6b7219ae83411674a26b8918c276e7a88a8190"
+  integrity sha1-7GtyGa6DQRZ0omuJGMJ256iKgZA=
 
 xtend@^4.0.0, xtend@~4.0.1:
   version "4.0.2"

@@ -1,7 +1,7 @@
 <!--
  * @Date: 2019-11-21 16:48:00
  * @Author: xiazhengchun
- * @LastEditTime: 2019-11-21 18:09:07
+ * @LastEditTime: 2019-11-22 10:47:05
  -->
 <template>
   <div class="mine">
@@ -24,7 +24,7 @@
         </van-grid-item>
         <van-grid-item
           link-type="navigateTo"
-          url="/pages/dashboard/index"
+          url="/pages/dashboard/main"
           text="反馈"
         >
           <view slot="icon">

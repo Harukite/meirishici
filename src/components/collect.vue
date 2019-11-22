@@ -1,11 +1,11 @@
 <!--
  * @Date: 2019-11-20 12:06:11
  * @Author: xiazhengchun
- * @LastEditTime: 2019-11-20 15:14:42
+ * @LastEditTime: 2019-11-22 11:35:15
  -->
 <template>
     <div class="collect_icon">
-        <img class="collect_img" src="./collect.png" />
+        <!-- <img class="collect_img" src="./collect.png" /> -->
     </div>
 </template>
 <script>
