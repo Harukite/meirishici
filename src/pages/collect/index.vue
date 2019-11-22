@@ -1,20 +1,21 @@
 <!--
  * @Date: 2019-11-20 11:57:08
  * @Author: xiazhengchun
- * @LastEditTime: 2019-11-22 19:17:34
+ * @LastEditTime: 2019-11-22 19:52:16
  -->
 <template>
   <view>
     <van-dialog id="van-dialog" confirmButtonColor="#1aaf5d" />
-    <view class="collect_box_panel" v-for="item in collectList" :key="item.collect_id">
+     <van-notify id="van-notify" />
+    <view class="collect_box_panel" v-for="(item,index) in collectList" :key="item.collect_id">
       <view class="collect_box_panel_header">
         <div class="title">
           <div class="title-info">{{item.origin.title}}</div>
           <div class="title-info">{{item.origin.author}}</div>
         </div>
         <div>
-          <van-icon class="delete" color="red" :size="size" name="delete" @click="deleteHandle(item.collect_id)" />
-          <van-icon :size="size" color="#1AAF5D" name="share" @click="shareHandle(item.collect_id)" />
+          <van-icon class="delete" color="red" :size="size" name="delete" @click="deleteHandle(item._id,index)" />
+          <van-icon :size="size" color="#1AAF5D" name="share" @click="shareHandle(item._id)" />
         </div>
       </view>
       <view class="collect_box_panel_content">
@@ -30,6 +31,7 @@
 </template>
 <script>
 import Dialog from "../../../static/vant/dialog/dialog";
+import Notify from "../../../static/vant/notify/notify";
 const db = wx.cloud.database();
 export default {
   components: {
@@ -46,7 +48,15 @@ export default {
   },
   created() {},
   mounted() {
-    wx.cloud
+    this.getAllData()
+  },
+  onPullDownRefresh: function() {
+    // Do something when pull down.
+    this.getAllData()
+  },
+  methods: {
+    getAllData(){
+      wx.cloud
       .callFunction({
         name: "login",
         data: {}
@@ -55,18 +65,17 @@ export default {
         let { openid } = res.result;
         this.getCollectData(openid);
       });
-  },
-  methods: {
-    deleteHandle(id) {
-      console.log(id);
+    },
+    deleteHandle(id,index) {
+      console.log(id,index);
       Dialog.confirm({
         title: "提醒",
         message: "确定删除该收藏吗？",
         asyncClose: true
       })
         .then(() => {
-          console.log('delete')
-          this.deleteSelectCollect(id);
+          console.log('delete',id)
+          this.deleteSelectCollect(id,index);
         })
         .catch(() => {
           Dialog.close();
@@ -89,6 +98,7 @@ export default {
         .get({
           success: function(e) {
             console.log(e.data);
+           wx.stopPullDownRefresh()
             _this.collectList = e.data
           }
         });
@@ -98,15 +108,20 @@ export default {
      * @param {type}
      * @return:
      */
-    deleteSelectCollect(id) {
+    deleteSelectCollect(id,index) {
+      console.log(id,index)
+      let _this =this
       db
         .collection("collect")
-        .where({
-          collect_id: id
-        })
+        .doc(id)
         .remove({
           success: function(e) {
-            console.log(e);
+             Dialog.close();
+             _this.collectList.splice(index,1)
+             Notify({ type: "primary", message: "删除成功", background: "#1aaf5d" });
+          },
+          fail: function() {
+             Notify({ type: 'danger', message: '删除失败' });
           }
         });
     },

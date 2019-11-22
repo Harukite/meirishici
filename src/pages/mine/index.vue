@@ -1,16 +1,16 @@
 <!--
  * @Date: 2019-11-21 16:48:00
  * @Author: xiazhengchun
- * @LastEditTime: 2019-11-22 10:47:05
+ * @LastEditTime: 2019-11-22 19:44:30
  -->
 <template>
   <div class="mine">
-    <div>
+    <!-- <div>
       <div class="avatar-box">
           <img class="img" src="../../components/collect.png" alt />
       </div>
       <view class="nickname">夏天的味道</view>
-    </div>
+    </div> -->
     <div>
       <van-grid clickable column-num="2">
         <van-grid-item

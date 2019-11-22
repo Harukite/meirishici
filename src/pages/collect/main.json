@@ -1,3 +1,4 @@
 {
-  "navigationBarTitleText": "每日诗词"
+  "navigationBarTitleText": "每日诗词",
+  "enablePullDownRefresh":true
 }
