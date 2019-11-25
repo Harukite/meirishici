@@ -1,7 +1,7 @@
 <!--
  * @Date: 2019-11-21 16:48:00
  * @Author: xiazhengchun
- * @LastEditTime: 2019-11-22 19:44:30
+ * @LastEditTime: 2019-11-25 19:18:54
  -->
 <template>
   <div class="mine">
@@ -24,13 +24,21 @@
         </van-grid-item>
         <van-grid-item
           link-type="navigateTo"
-          url="/pages/dashboard/main"
+          url="/pages/feedback/main"
           text="反馈"
         >
           <view slot="icon">
             <img class="icon" src="../../images/feedback.png" alt="">
           </view>
         </van-grid-item>
+        <!-- <van-grid-item
+          @click="share"
+          text="分享"
+        >
+          <view slot="icon">
+            <img class="icon" src="../../images/share.png" alt="">
+          </view>
+        </van-grid-item> -->
       </van-grid>
     </div>
   </div>
@@ -43,7 +51,7 @@ export default {
     return {};
   },
   mounted() {
-   console.log( wx.getUserInfo())
+  //  console.log()
   },
 };
 </script>

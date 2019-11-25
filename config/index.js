@@ -1,3 +1,8 @@
+/*
+ * @Date: 2019-11-20 11:57:08
+ * @Author: xiazhengchun
+ * @LastEditTime: 2019-11-25 19:12:48
+ */
 // see http://vuejs-templates.github.io/webpack for documentation.
 var path = require('path')
 var fileExtConfig = {
@@ -27,7 +32,7 @@ var fileExtConfig = {
     }
 }
 var fileExt = fileExtConfig[process.env.PLATFORM]
-
+console.log(process.env.NODE_ENV)
 module.exports = {
   build: {
     env: require('./prod.env'),

@@ -2,7 +2,8 @@
   "pages": [
     "pages/index/main",
     "pages/collect/main",
-    "pages/mine/main"
+    "pages/mine/main",
+    "pages/feedback/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -24,7 +25,8 @@
     "van-cell-group": "/static/vant/cell-group/index",
     "van-grid": "/static/vant/grid/index",
     "van-grid-item": "/static/vant/grid-item/index",
-    "canvas-drawer": "/static/canvasdrawer/canvasdrawer"
+    "canvas-drawer": "/static/canvasdrawer/canvasdrawer",
+    "van-field": "/static/vant/field/index"
   },
   "tabBar": {
     "color": "#999",

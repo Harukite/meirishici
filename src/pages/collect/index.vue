@@ -1,32 +1,44 @@
 <!--
  * @Date: 2019-11-20 11:57:08
  * @Author: xiazhengchun
- * @LastEditTime: 2019-11-22 19:52:16
+ * @LastEditTime: 2019-11-25 20:51:45
  -->
 <template>
   <view>
     <van-dialog id="van-dialog" confirmButtonColor="#1aaf5d" />
-     <van-notify id="van-notify" />
-    <view class="collect_box_panel" v-for="(item,index) in collectList" :key="item.collect_id">
-      <view class="collect_box_panel_header">
-        <div class="title">
-          <div class="title-info">{{item.origin.title}}</div>
-          <div class="title-info">{{item.origin.author}}</div>
-        </div>
-        <div>
-          <van-icon class="delete" color="red" :size="size" name="delete" @click="deleteHandle(item._id,index)" />
-          <van-icon :size="size" color="#1AAF5D" name="share" @click="shareHandle(item._id)" />
-        </div>
+    <van-notify id="van-notify" />
+    <view v-if="collectList.length>0">
+      <view class="collect_box_panel" v-for="(item,index) in collectList" :key="item.collect_id">
+        <view class="collect_box_panel_header">
+          <div class="title">
+            <div class="title-info">{{item.origin.title}}</div>
+            <div class="title-info">{{item.origin.author}}</div>
+          </div>
+          <div>
+            <van-icon
+              class="delete"
+              color="red"
+              :size="size"
+              name="delete"
+              @click="deleteHandle(item._id,index)"
+            />
+            <!-- <van-icon :size="size" color="#1AAF5D" name="share" @click="shareHandle(item._id)" /> -->
+          </div>
+        </view>
+        <view class="collect_box_panel_content">
+          <span v-for="(list,key) in item.origin.content" :key="key">{{list}}</span>
+        </view>
+        <view class="collect_box_panel_foot"></view>
       </view>
-      <view class="collect_box_panel_content">
-        <span v-for="(list,key) in item.origin.content" :key="key">{{list}}</span>
-      </view>
-      <view class="collect_box_panel_foot"></view>
+    </view>
+    <view v-else class="no-result-box">
+      <img class="no-result" src="../../images/no-data.png" alt />
+      <view>空空如也</view>
     </view>
     <!-- <img :src="shareImage" class="share-image" />
     <canvasdrawer :painting="painting" class="canvasdrawer" @getImage="eventGetImage"/>
     <button @click="eventDraw" class="btn">绘制</button>
-    <button @click="eventSave" class="btn">保存到本地</button> -->
+    <button @click="eventSave" class="btn">保存到本地</button>-->
   </view>
 </template>
 <script>
@@ -41,41 +53,41 @@ export default {
     return {
       logs: [],
       size: "20px",
-      collectList:[],
-       shareImage: '',
+      collectList: [],
+      shareImage: "",
       painting: {}
     };
   },
   created() {},
   mounted() {
-    this.getAllData()
+    this.getAllData();
   },
   onPullDownRefresh: function() {
     // Do something when pull down.
-    this.getAllData()
+    this.getAllData();
   },
   methods: {
-    getAllData(){
+    getAllData() {
       wx.cloud
-      .callFunction({
-        name: "login",
-        data: {}
-      })
-      .then(res => {
-        let { openid } = res.result;
-        this.getCollectData(openid);
-      });
+        .callFunction({
+          name: "login",
+          data: {}
+        })
+        .then(res => {
+          let { openid } = res.result;
+          this.getCollectData(openid);
+        });
     },
-    deleteHandle(id,index) {
-      console.log(id,index);
+    deleteHandle(id, index) {
+      console.log(id, index);
       Dialog.confirm({
         title: "提醒",
         message: "确定删除该收藏吗？",
         asyncClose: true
       })
         .then(() => {
-          console.log('delete',id)
-          this.deleteSelectCollect(id,index);
+          console.log("delete", id);
+          this.deleteSelectCollect(id, index);
         })
         .catch(() => {
           Dialog.close();
@@ -90,17 +102,20 @@ export default {
      * @return:
      */
     getCollectData(id) {
-      let _this = this
-      db.collection("collect")
-        .where({
-          _openid: id
-        })
-        .get({
-          success: function(e) {
-            console.log(e.data);
-           wx.stopPullDownRefresh()
-            _this.collectList = e.data
+      let _this = this;
+      wx.showLoading();
+      wx.cloud
+        .callFunction({
+          name: "getCollect",
+          data: {
+            _openid: id
           }
+        })
+        .then(res => {
+          console.log(res);
+          wx.stopPullDownRefresh();
+          _this.collectList = res.result.data;
+          wx.hideLoading();
         });
     },
     /**
@@ -108,33 +123,37 @@ export default {
      * @param {type}
      * @return:
      */
-    deleteSelectCollect(id,index) {
-      console.log(id,index)
-      let _this =this
+    deleteSelectCollect(id, index) {
+      console.log(id, index);
+      let _this = this;
       db
         .collection("collect")
         .doc(id)
         .remove({
           success: function(e) {
-             Dialog.close();
-             _this.collectList.splice(index,1)
-             Notify({ type: "primary", message: "删除成功", background: "#1aaf5d" });
+            Dialog.close();
+            _this.collectList.splice(index, 1);
+            Notify({
+              type: "primary",
+              message: "删除成功",
+              background: "#1aaf5d"
+            });
           },
           fail: function() {
-             Notify({ type: 'danger', message: '删除失败' });
+            Notify({ type: "danger", message: "删除失败" });
           }
         });
     },
-     eventGetImage (event) {
-      console.log(event)
-      wx.hideLoading()
-      this.shareImage = event.target.tempFilePath
+    eventGetImage(event) {
+      console.log(event);
+      wx.hideLoading();
+      this.shareImage = event.target.tempFilePath;
     },
-    eventDraw () {
+    eventDraw() {
       wx.showLoading({
-        title: '绘制分享图片中',
+        title: "绘制分享图片中",
         mask: true
-      })
+      });
       this.painting = {
         width: 375,
         height: 555,
@@ -165,21 +184,21 @@ export default {
           //   height: 55
           // },
           {
-            type: 'text',
-            content: '您的好友【kuckboy】',
+            type: "text",
+            content: "您的好友【kuckboy】",
             fontSize: 16,
-            color: '#402D16',
-            textAlign: 'left',
+            color: "#402D16",
+            textAlign: "left",
             top: 33,
             left: 96,
             bolder: true
           },
           {
-            type: 'text',
-            content: '发现一件好货，邀请你一起0元免费拿！',
+            type: "text",
+            content: "发现一件好货，邀请你一起0元免费拿！",
             fontSize: 15,
-            color: '#563D20',
-            textAlign: 'left',
+            color: "#563D20",
+            textAlign: "left",
             top: 59.5,
             left: 96
           },
@@ -200,12 +219,12 @@ export default {
           //   height: 68
           // },
           {
-            type: 'text',
-            content: '正品MAC魅可口红礼盒生日唇膏小辣椒Chili西柚情人',
+            type: "text",
+            content: "正品MAC魅可口红礼盒生日唇膏小辣椒Chili西柚情人",
             fontSize: 16,
             lineHeight: 21,
-            color: '#383549',
-            textAlign: 'left',
+            color: "#383549",
+            textAlign: "left",
             top: 336,
             left: 44,
             width: 287,
@@ -214,31 +233,31 @@ export default {
             bolder: true
           },
           {
-            type: 'text',
-            content: '￥0.00',
+            type: "text",
+            content: "￥0.00",
             fontSize: 19,
-            color: '#E62004',
-            textAlign: 'left',
+            color: "#E62004",
+            textAlign: "left",
             top: 387,
             left: 44.5,
             bolder: true
           },
           {
-            type: 'text',
-            content: '原价:￥138.00',
+            type: "text",
+            content: "原价:￥138.00",
             fontSize: 13,
-            color: '#7E7E8B',
-            textAlign: 'left',
+            color: "#7E7E8B",
+            textAlign: "left",
             top: 391,
             left: 110,
-            textDecoration: 'line-through'
+            textDecoration: "line-through"
           },
           {
-            type: 'text',
-            content: '长按识别图中二维码帮我砍个价呗~',
+            type: "text",
+            content: "长按识别图中二维码帮我砍个价呗~",
             fontSize: 14,
-            color: '#383549',
-            textAlign: 'left',
+            color: "#383549",
+            textAlign: "left",
             top: 460,
             left: 165.5,
             lineHeight: 20,
@@ -247,19 +266,19 @@ export default {
             width: 125
           }
         ]
-      }
+      };
     },
-    eventSave () {
+    eventSave() {
       wx.saveImageToPhotosAlbum({
         filePath: this.shareImage,
-        success (res) {
+        success(res) {
           wx.showToast({
-            title: '保存图片成功',
-            icon: 'success',
+            title: "保存图片成功",
+            icon: "success",
             duration: 2000
-          })
+          });
         }
-      })
+      });
     }
   }
 };
@@ -307,5 +326,16 @@ export default {
   height: 888rpx;
   margin: 0 75rpx;
   border: 1px solid black;
+}
+.no-result-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+  .no-result {
+    width: 200rpx;
+    height: 200rpx;
+  }
 }
 </style>
